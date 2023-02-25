@@ -137,20 +137,21 @@ app.post("/todos/", async (request, response) => {
   const catCond = possibleCategory.includes(category);
   if (statusCond !== true) {
     response.status(400);
-    response.send("Inavlid Todo Status");
+    response.send("Invalid Todo Status");
   } else if (priorityCond !== true) {
     response.status(400);
-    response.send("Inavlid Todo Priority");
+    response.send("Invalid Todo Priority");
   } else if (catCond !== true) {
     response.status(400);
-    response.send("Inavlid Todo Category");
+    response.send("Invalid Todo Category");
   } else if (isvalidDate !== true) {
     response.status(400);
     response.send("Invalid Due Date");
   } else {
+     const formatdate = format(new Date(dueDate), "yyyy-MM-dd");
     const insertquery = `INSERT INTO todo(id,todo,priority,status,category,due_date)
  VALUES(
-     ${id},'${todos}','${priority}','${status}','${category}','${dueDate}');`;
+     ${id},'${todos}','${priority}','${status}','${category}','${formatdate}');`;
     await db.run(insertquery);
     response.send("Todo Successfully Added");
   }
